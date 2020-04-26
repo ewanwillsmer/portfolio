@@ -21,10 +21,21 @@ new ScrollMagic.Scene({
   .setClassToggle("#reveal1", "visible")
   .addTo(controller);
 
-new ScrollMagic.Scene({
-  triggerElement: "#trigger2",
-  reverse: false, // only do once
-})
-  .setClassToggle("line:before", "line:after")
-  .addIndicator()
-  .addTo(controller);
+document.addEventListener("DOMContentLoaded", function () {
+  var elements = document.querySelectorAll(".line");
+
+  // Intersection observer
+  var observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio > 0) {
+        entry.target.classList.add("animate");
+      } else {
+        entry.target.classList.remove("animate");
+      }
+    });
+  });
+
+  elements.forEach((el) => {
+    observer.observe(el);
+  });
+});
